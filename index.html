@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gestión Administrativa BT</title>
+  <style>
+    :root{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1f2937;background:#f5f7fb}
+    *{box-sizing:border-box}body{margin:0}.app{min-height:100vh;display:grid;grid-template-columns:240px 1fr}.sidebar{background:#111827;color:#fff;padding:24px}.brand{font-size:20px;font-weight:800;margin-bottom:28px}.nav{display:grid;gap:10px}.nav a{color:#d1d5db;text-decoration:none;padding:11px 12px;border-radius:10px}.nav a.active,.nav a:hover{background:#1f2937;color:#fff}.main{padding:28px}.top{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:24px}.search{flex:1;max-width:680px;background:#fff;border:1px solid #dbe2ea;border-radius:12px;padding:13px 15px}.badge{background:#e5e7eb;border-radius:999px;padding:8px 12px;font-size:13px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.03)}.card h3{margin:0 0 6px;font-size:14px;color:#6b7280}.value{font-size:30px;font-weight:800}.panel{margin-top:20px;background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:20px}.panel h2{margin-top:0}.empty{padding:36px;text-align:center;color:#6b7280;border:1px dashed #d1d5db;border-radius:14px}.notice{margin-top:16px;padding:14px;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412}@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{padding:16px}.nav{grid-template-columns:repeat(5,1fr);overflow:auto}.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.grid{grid-template-columns:1fr}.main{padding:18px}.top{align-items:stretch;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">Gestión Administrativa BT</div>
+      <nav class="nav">
+        <a class="active" href="#inicio">Inicio</a>
+        <a href="#clientes">Clientes</a>
+        <a href="#suministros">Suministros</a>
+        <a href="#expedientes">Expedientes</a>
+        <a href="#documentos">Documentos</a>
+      </nav>
+    </aside>
+    <main class="main">
+      <div class="top">
+        <input class="search" placeholder="Buscar cliente, CUPS, dirección o expediente..." disabled />
+        <span class="badge">V0.1 · estructura inicial</span>
+      </div>
+
+      <section class="grid">
+        <div class="card"><h3>Clientes</h3><div class="value">0</div></div>
+        <div class="card"><h3>Suministros</h3><div class="value">0</div></div>
+        <div class="card"><h3>Expedientes abiertos</h3><div class="value">0</div></div>
+        <div class="card"><h3>Documentos</h3><div class="value">0</div></div>
+      </section>
+
+      <section class="panel">
+        <h2>Actividad reciente</h2>
+        <div class="empty">Todavía no hay actividad. La interfaz está preparada para conectarse al backend.</div>
+        <div class="notice">No se almacenan datos reales ni credenciales en este repositorio público.</div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
