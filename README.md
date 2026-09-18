@@ -50,9 +50,11 @@ Cloudflare Worker
   +-- D1
   |     Datos administrativos
   |
-  +-- R2
-        Documentos privados
+  +-- OneDrive / SharePoint corporativo
+        Documentos reales
 ```
+
+D1 guarda metadatos y referencias de documento (`external_id`, `web_url`, hash y relación con cliente/CUPS). Los archivos reales permanecen en el almacenamiento corporativo existente.
 
 Las integraciones externas seguirán siendo independientes y versionadas:
 
@@ -77,4 +79,4 @@ Los archivos de `supabase/` se conservan temporalmente como referencia de la pri
 
 ## Estado
 
-El repositorio ya está preparado para desplegarse en Cloudflare Workers. Falta conectar el repositorio desde la cuenta Cloudflare, aplicar la migración D1 y activar Cloudflare Access para `@electricabt.com`.
+El backend activo usa Cloudflare Workers + D1 + Access. R2 se descarta para evitar activar facturación por uso. Los documentos se integrarán con OneDrive/SharePoint corporativo sin duplicarlos en Cloudflare.
