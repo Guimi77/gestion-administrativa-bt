@@ -57,7 +57,10 @@ CREATE TABLE IF NOT EXISTS documentos (
   expediente_id TEXT REFERENCES expedientes(id) ON DELETE SET NULL,
   tipo TEXT NOT NULL,
   nombre_archivo TEXT NOT NULL,
-  storage_key TEXT NOT NULL,
+  storage_provider TEXT NOT NULL DEFAULT 'onedrive',
+  external_id TEXT,
+  web_url TEXT,
+  ruta_logica TEXT,
   fecha_documento TEXT,
   origen TEXT,
   hash_archivo TEXT,
@@ -96,5 +99,6 @@ CREATE INDEX IF NOT EXISTS expedientes_cliente_idx ON expedientes(cliente_id);
 CREATE INDEX IF NOT EXISTS expedientes_suministro_idx ON expedientes(suministro_id);
 CREATE INDEX IF NOT EXISTS documentos_hash_idx ON documentos(hash_archivo);
 CREATE INDEX IF NOT EXISTS documentos_suministro_idx ON documentos(suministro_id);
+CREATE INDEX IF NOT EXISTS documentos_external_id_idx ON documentos(external_id);
 CREATE INDEX IF NOT EXISTS historico_suministro_idx ON historico(suministro_id);
 CREATE INDEX IF NOT EXISTS historico_fecha_idx ON historico(fecha DESC);
