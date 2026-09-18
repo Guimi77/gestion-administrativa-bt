@@ -22,7 +22,8 @@
   ],
   "r2_buckets": [
     {
-      "binding": "DOCUMENTS"
+      "binding": "DOCUMENTS",
+      "bucket_name": "gestion-administrativa-bt-documentos"
     }
   ]
 }
