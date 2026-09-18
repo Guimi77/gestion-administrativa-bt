@@ -19,11 +19,5 @@
       "database_name": "gestion-administrativa-bt-db",
       "migrations_dir": "migrations"
     }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "DOCUMENTS",
-      "bucket_name": "gestion-administrativa-bt-documentos"
-    }
   ]
 }
