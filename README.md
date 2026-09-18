@@ -15,16 +15,15 @@ Construir un núcleo estable para gestionar:
 
 ## Acceso
 
-La aplicación es privada.
+La aplicación es privada y se protege mediante Cloudflare Access.
 
 - Solo cuentas corporativas `@electricabt.com`.
 - Sin acceso anónimo.
-- Sin registro público por email/contraseña.
 - Roles iniciales: `admin`, `oficina`, `tecnico`.
-- RLS activada en todas las tablas del núcleo.
-- En V0.1 no se conceden permisos `DELETE` a usuarios autenticados.
-
-La configuración detallada está en [`docs/AUTH.md`](docs/AUTH.md).
+- Un usuario nuevo entra como `tecnico`.
+- Un usuario desactivado pierde acceso.
+- La API vuelve a validar el dominio aunque Access ya haya autenticado la petición.
+- En V0.1 no existe borrado desde la interfaz.
 
 ## Principios
 
@@ -32,37 +31,50 @@ La configuración detallada está en [`docs/AUTH.md`](docs/AUTH.md).
 2. **No regresión.** Las integraciones futuras se añaden mediante interfaces versionadas y pruebas.
 3. **Privacidad.** Este repositorio es público. Nunca se guardarán aquí documentos reales, nombres de clientes, direcciones, CUPS, teléfonos, CIF/NIF ni credenciales.
 4. **Trazabilidad.** Los datos extraídos de documentos deben conservar su origen, parser y versión.
-5. **Seguridad desde el diseño.** Los datos reales vivirán en almacenamiento privado y la autorización se implementa con Auth + RLS en Supabase.
+5. **Seguridad desde el diseño.** Cloudflare Access protege el perímetro y la aplicación mantiene permisos internos.
 6. **No inventar datos.** Los datos desconocidos o ambiguos deben quedar pendientes de revisión.
 
-## Arquitectura prevista
+## Arquitectura activa
 
 ```text
-GitHub Pages / Web App
-        |
-        v
-     Supabase
-  + PostgreSQL
-  + Auth corporativo
-  + Storage privado
-  + RLS
-        |
-        +--> Integraciones externas versionadas
-             - Asesor Energético
-             - Xispa
-             - CAD Unifilar
-             - Odoo
+GitHub
+  |
+  v
+Cloudflare Worker
+  + Static Assets
+  + API
+  |
+  +-- Cloudflare Access
+  |     Solo @electricabt.com
+  |
+  +-- D1
+  |     Datos administrativos
+  |
+  +-- R2
+        Documentos privados
 ```
+
+Las integraciones externas seguirán siendo independientes y versionadas:
+
+- Xispa
+- CAD Unifilar
+- Asesor Energético
+- Odoo
 
 ## Archivos principales
 
-- `index.html`: interfaz base y pantalla de acceso.
-- `app.js`: sesión corporativa y guardas del frontend.
-- `config.js`: configuración pública del cliente Supabase; nunca secretos.
-- `supabase/schema.sql`: tablas, Auth hook, usuarios, roles y políticas RLS.
-- `docs/AUTH.md`: procedimiento de autenticación y verificación.
-- `docs/ARCHITECTURE.md`: arquitectura general y contratos entre sistemas.
+- `public/index.html`: interfaz activa.
+- `public/app.js`: frontend conectado a la API del Worker.
+- `src/index.js`: API, autenticación interna y permisos.
+- `wrangler.jsonc`: configuración Cloudflare.
+- `migrations/0001_initial.sql`: esquema inicial D1.
+- `docs/CLOUDFLARE.md`: despliegue y seguridad.
+- `docs/ARCHITECTURE.md`: arquitectura y contratos entre sistemas.
+
+## Supabase
+
+Los archivos de `supabase/` se conservan temporalmente como referencia de la primera propuesta arquitectónica, pero **ya no forman parte del backend activo**.
 
 ## Estado
 
-La carcasa de autenticación y el modelo de permisos V0.1 están preparados en código. Falta crear el proyecto Supabase independiente, ejecutar el esquema, configurar el proveedor OAuth corporativo y verificar las políticas antes de introducir datos reales.
+El repositorio ya está preparado para desplegarse en Cloudflare Workers. Falta conectar el repositorio desde la cuenta Cloudflare, aplicar la migración D1 y activar Cloudflare Access para `@electricabt.com`.
