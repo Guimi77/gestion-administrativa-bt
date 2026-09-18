@@ -23,10 +23,27 @@ async function api(path, options) {
     ...options
   });
 
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(data.error || 'Error de comunicación con el backend.');
+  const raw = await response.text();
+  let data = {};
+
+  if (raw) {
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      data = { raw };
+    }
   }
+
+  if (!response.ok) {
+    const detail =
+      data.error ||
+      (data.raw ? data.raw.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 240) : '') ||
+      response.statusText ||
+      'Error desconocido';
+
+    throw new Error(`Backend ${response.status}: ${detail}`);
+  }
+
   return data;
 }
 
